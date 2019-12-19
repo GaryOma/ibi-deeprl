@@ -14,6 +14,14 @@ class RandomAgent(object):
     def act(self, observation, reward, done):
         return self.action_space.sample()
 
+def plot_cumulated(ep, reward, title="", file_name="error"):
+    plt.figure(figsize=(10, 10))
+    plt.plot(ep, reward, 'ko')
+    plt.ylabel("Récompense cumulée")
+    plt.xlabel("Avancement de l'apprentisage")
+    plt.title(title)
+    plt.savefig(f"src/img/{file_name}.png")
+    plt.show()
 
 def plot_reward(reward, title="", file_name="error", mean_size=500):
     list_e = []
@@ -59,6 +67,7 @@ if __name__ == '__main__':
     rewards = []
 
     c_rewards = []
+    c_int = []
     for i in range(episode_count):
         ob = env.reset()
         rewardSum = 0
@@ -70,6 +79,8 @@ if __name__ == '__main__':
             steps += 1
             if done:
                 rewards.append(rewardSum)
+                c_rewards.append(rewardSum)
+                c_int.append(steps)
                 break
             # Note there's no env.render() here. But the environment still can open window and
             # render if asked by env.monitor: it calls env.render('rgb_array') to record video.
@@ -77,4 +88,5 @@ if __name__ == '__main__':
 
     # Close the env and write monitor result info to disk
     plot_reward(rewards, f"Evolution récompenses cumulées pour {args.env_id}", f"env_{args.env_id}_random", mean_size=2)
+    plot_cumulated(c_int, c_rewards, f"Evolution récompenses cumulées pour {args.env_id}", f"env_{args.env_id}_random_cumu")
     env.close()

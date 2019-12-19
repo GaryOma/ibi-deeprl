@@ -31,7 +31,8 @@ def plot_reward(reward, title="", file_name="error", mean_size=500):
     plt.title(title)
     plt.savefig(f"src/img/{file_name}.png")
     plt.show()
-    
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=None)
     parser.add_argument('env_id', nargs='?', default='CartPole-v1', help='Select the environment to run')

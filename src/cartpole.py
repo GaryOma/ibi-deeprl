@@ -26,7 +26,7 @@ def plot_reward(reward, title="", file_name="error", mean_size=500):
         i += mean_size
     plt.figure(figsize=(10, 10))
     plt.plot(range(len(list_e)), list_e, 'k')
-    plt.ylabel("Valeur de l'erreur")
+    plt.ylabel("Récompense cumulée")
     plt.xlabel("Avancement de l'apprentisage")
     plt.title(title)
     plt.savefig(f"src/img/{file_name}.png")
@@ -57,6 +57,8 @@ if __name__ == '__main__':
     done = False
 
     rewards = []
+
+    c_rewards = []
     for i in range(episode_count):
         ob = env.reset()
         rewardSum = 0
@@ -74,5 +76,5 @@ if __name__ == '__main__':
             # Video is not recorded every episode, see capped_cubic_video_schedule for details.
 
     # Close the env and write monitor result info to disk
-    plot_reward(rewards, "rewards", "rewards", mean_size=10)
+    plot_reward(rewards, f"Evolution récompenses cumulées pour {args.env_id}", f"env_{args.env_id}_random", mean_size=2)
     env.close()
